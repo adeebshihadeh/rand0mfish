@@ -23,6 +23,7 @@ while True:
         l.accept_challenge(ev["challenge"]["id"])
       else:
         print "rejecting challenge from", ev["challenge"]["challenger"]["id"]
+        print "\t", ev["challenge"]["variant"]["name"], ev["challenge"]["timeControl"]
         l.decline_challenge(ev["challenge"]["id"])
     elif ev["type"] == "gameStart":
       print "game start"
