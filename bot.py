@@ -1,7 +1,8 @@
 import chess
-from random import choice
+from random import choice, getrandbits
 from stockfish import Stockfish
 
+stockfish = Stockfish()
 
 def get_move(moves):
   b = chess.Board()
@@ -12,4 +13,11 @@ def get_move(moves):
 
   if len(list(b.legal_moves)) < 1: return None
 
-  return choice(list(b.legal_moves))
+
+  # random move
+  if bool(getrandbits(1)): return choice(list(b.legal_moves))
+
+  # stockfish move
+  stockfish.set_position(moves)
+
+  return stockfish.get_best_move()
