@@ -1,8 +1,9 @@
 import requests
 import json
 
-import bot
+from bot import Bot
 
+bot = Bot()
 
 token = open("token").read()
 
@@ -54,7 +55,7 @@ while True:
       continue
 
     if ev["type"] == "challenge":
-      if ev["challenge"]["variant"]["key"] == "standard" and ev["challenge"]["timeControl"]["limit"] <= 0 and ev["challenge"]["timeControl"]["increment"] == 0:
+      if bot.acceptable_challenge(ev["challenge"]):
         print "accepting challenge from", ev["challenge"]["challenger"]["id"]
         accept_challenge(ev["challenge"]["id"])
       else:

@@ -2,22 +2,36 @@ import chess
 from random import choice, getrandbits
 from stockfish import Stockfish
 
-stockfish = Stockfish()
 
-def get_move(moves):
-  b = chess.Board()
+class Bot():
+  def __init__(self):
+    self.stockfish = Stockfish()
 
-  if moves[0] == '': moves = [] 
-  for m in moves:
-    b.push(chess.Move.from_uci(m))
+  def acceptable_challenge(self, chall):
+    if chall["variant"]["key"] != "standard":
+      return False
 
-  if len(list(b.legal_moves)) < 1: return None
+    if chall["timeControl"]["limit"] >= 60:
+      return False
 
+    if chall["timeControl"]["increment"] > 0:
+      return False
 
-  # random move
-  if bool(getrandbits(1)): return choice(list(b.legal_moves))
+    return True
 
-  # stockfish move
-  stockfish.set_position(moves)
+  def get_move(self, moves):
+    b = chess.Board()
 
-  return stockfish.get_best_move()
+    if moves[0] == '': moves = [] 
+    for m in moves:
+      b.push(chess.Move.from_uci(m))
+
+    if len(list(b.legal_moves)) < 1: return None
+
+    # random move
+    if bool(getrandbits(1)): return choice(list(b.legal_moves))
+
+    # stockfish move
+    self.stockfish.set_position(moves)
+
+    return self.stockfish.get_best_move()
