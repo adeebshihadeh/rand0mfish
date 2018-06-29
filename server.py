@@ -54,7 +54,7 @@ while True:
       continue
 
     if ev["type"] == "challenge":
-      if ev["challenge"]["variant"]["key"] == "standard" and ev["challenge"]["timeControl"]["increment"] == 0:
+      if ev["challenge"]["variant"]["key"] == "standard" and ev["challenge"]["timeControl"]["limit"] <= 0 and ev["challenge"]["timeControl"]["increment"] == 0:
         print "accepting challenge from", ev["challenge"]["challenger"]["id"]
         accept_challenge(ev["challenge"]["id"])
       else:
