@@ -54,6 +54,6 @@ while True:
           last_move = str(move)
           l.make_move(ev["game"]["id"], move)
 
-      print "gamve over"
+      print "game over"
     else:
       print ev["type"]

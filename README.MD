@@ -7,7 +7,7 @@ each turn it randomly chooses either a stockfish move or a random move
 challenge [@rand0mfish](https://lichess.org/@/rand0mfish) on lichess]
 
 
-# lichess.py & server.py
+## lichess.py & server.py
 
 `lichess.py` can easily be used in other python bots. just give it an api token
 
