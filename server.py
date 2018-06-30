@@ -12,10 +12,10 @@ while True:
   print "streaming events..."
 
   for ev in l.stream_events().iter_lines():
-    try:
-      ev = json.loads(ev)
-    except:
-      continue
+
+    if ev == '': continue
+
+    ev = json.loads(ev)
 
     if ev["type"] == "challenge":
       if bot.acceptable_challenge(ev["challenge"]):
@@ -31,11 +31,11 @@ while True:
       last_move = "last move"
 
       for e in l.stream_game_state(ev["game"]["id"]).iter_lines():
-        try:
-          e = json.loads(e)
-        except:
-          continue
+        if e == '': continue
 
+        e = json.loads(e)
+
+        # ignore chat
         if e["type"] == "chatLine": continue
 
         if e["type"] == "gameFull":
@@ -48,12 +48,10 @@ while True:
 
         move = bot.get_move(moves)
 
-        if move is None:
-          break # game over
-        else:
-          last_move = str(move)
-          l.make_move(ev["game"]["id"], move)
+        # game over
+        if move is None: break
+
+        if l.make_move(ev["game"]["id"], move).status_code == 200: last_move = str(move)
 
       print "game over"
-    else:
-      print ev["type"]
+
