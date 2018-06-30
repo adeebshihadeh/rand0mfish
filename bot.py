@@ -11,7 +11,7 @@ class Bot():
     if chall["variant"]["key"] != "standard":
       return False
 
-    if chall["timeControl"]["limit"] >= 60:
+    if chall["timeControl"]["limit"] > 60:
       return False
 
     if chall["timeControl"]["increment"] > 0:
